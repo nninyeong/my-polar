@@ -35,6 +35,9 @@ const config: Config = {
         },
         success: {},
       },
+      fontFamily: {
+        pretendard: ['var(--font-pretendard)'],
+      },
     },
   },
   plugins: [],
