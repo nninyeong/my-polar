@@ -1,3 +1,1 @@
-export const QUERY_KEYS = {
-  authStatus: () => ['authStatus'],
-};
+export const QUERY_KEYS = {};
