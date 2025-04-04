@@ -1,17 +1,14 @@
 'use client';
 
 import { useWeather } from '@/hooks/queries/useWeather';
+import { useGeolocation } from '@/hooks/user/useGeolocation';
 
 export default function MypolaContainer() {
-  const { data: weather, isLoading, isError } = useWeather();
+  const { position, isLoading: isGeolocationLoading } = useGeolocation();
+  const { data: weather, isLoading: isWeatherLoading } = useWeather(position);
 
-  if (isLoading) {
+  if (isGeolocationLoading || isWeatherLoading) {
     return <div>날씨 정보를 불러오는 중...</div>;
-  }
-
-  // TODO: 날씨 정보 불러오기 실패시 기본 날씨 맑음으로 할건지 논의 후 확정
-  if (isError || !weather) {
-    return <div>날씨 정보를 불러오는데 실패했습니다.</div>;
   }
 
   return (

@@ -1,10 +1,16 @@
+import { DEFAULT_WEATHER_POSITION } from '@/constants/weatherApi.config';
+import { Position } from '@/types/position.types';
 import { WeatherState } from '@/types/weather.types';
 import { WeatherResponse } from '@/types/weather.types';
-import { WEATHER_API_CONFIG } from '@/constants/weatherApi.config';
+import { convertLatLngToGrid } from '@/utils/coordinateConverter';
 
-export const fetchWeather = async (): Promise<WeatherResponse> => {
+export const fetchWeather = async (position: Position): Promise<WeatherResponse> => {
   try {
-    const response = await fetch(`/api/weather?nx=${55}&ny=${127}`);
+    const { nx: convertedNx, ny: convertedNy } = convertLatLngToGrid(position.latitude, position.longitude);
+    const nx = convertedNx.toString();
+    const ny = convertedNy.toString();
+
+    const response = await fetch(`/api/weather?nx=${nx}&ny=${ny}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

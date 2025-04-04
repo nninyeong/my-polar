@@ -10,3 +10,8 @@ export const WEATHER_API_CONFIG = {
     dataType: 'JSON',
   },
 } as const;
+
+export const DEFAULT_WEATHER_POSITION = {
+  latitude: '55',
+  longitude: '127',
+} as const;
