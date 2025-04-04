@@ -1,13 +1,24 @@
 import { WeatherState } from '@/types/weather.types';
 import { WeatherResponse } from '@/types/weather.types';
-import { useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from '@/hooks/queries/queryKeys';
+import { WEATHER_API_CONFIG } from '@/constants/weatherApi.config';
 
 export const fetchWeather = async (): Promise<WeatherResponse> => {
   try {
-    // 초단기예보조회 url
+    const requiredParams = {
+      base_date: '20250404',
+      base_time: '0100',
+      nx: '55',
+      ny: '127',
+    };
+
+    const params = new URLSearchParams({
+      serviceKey: process.env.NEXT_PUBLIC_WEATHER_API_KEY || '',
+      ...WEATHER_API_CONFIG.COMMON_PARAMS,
+      ...requiredParams,
+    });
+
     const response = await fetch(
-      `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=20250404&base_time=0100&nx=55&ny=127`,
+      `${WEATHER_API_CONFIG.BASE_URL}${WEATHER_API_CONFIG.ENDPOINTS.ULTRA_SHORT_FORECAST}?${params}`,
     );
 
     if (!response.ok) {
