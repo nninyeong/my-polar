@@ -2,7 +2,7 @@ import { DEFAULT_WEATHER_POSITION } from '@/constants/weatherApi.config';
 import { Position } from '@/types/position.types';
 import { WeatherState } from '@/types/weather.types';
 import { WeatherResponse } from '@/types/weather.types';
-import { convertLatLngToGrid } from '@/utils/coordinateConverter';
+import { convertLatLngToGrid } from '@/utils/convertCoordinate';
 
 export const fetchWeather = async (position: Position | null): Promise<WeatherResponse> => {
   try {
