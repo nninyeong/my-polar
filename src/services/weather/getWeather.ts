@@ -4,11 +4,16 @@ import { WeatherState } from '@/types/weather.types';
 import { WeatherResponse } from '@/types/weather.types';
 import { convertLatLngToGrid } from '@/utils/coordinateConverter';
 
-export const fetchWeather = async (position: Position): Promise<WeatherResponse> => {
+export const fetchWeather = async (position: Position | null): Promise<WeatherResponse> => {
   try {
-    const { nx: convertedNx, ny: convertedNy } = convertLatLngToGrid(position.latitude, position.longitude);
-    const nx = convertedNx.toString();
-    const ny = convertedNy.toString();
+    let nx = DEFAULT_WEATHER_POSITION.latitude.toString();
+    let ny = DEFAULT_WEATHER_POSITION.longitude.toString();
+
+    if (position) {
+      const { nx: convertedNx, ny: convertedNy } = convertLatLngToGrid(position.latitude, position.longitude);
+      nx = convertedNx.toString();
+      ny = convertedNy.toString();
+    }
 
     const response = await fetch(`/api/weather?nx=${nx}&ny=${ny}`);
 
