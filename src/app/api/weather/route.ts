@@ -1,13 +1,11 @@
-import { WEATHER_API_CONFIG } from '@/constants/weatherApi.config';
+import { DEFAULT_WEATHER_POSITION, WEATHER_API_CONFIG } from '@/constants/weatherApi.config';
 import { NextResponse } from 'next/server';
-const DEFAULT_NX = '55';
-const DEFAULT_NY = '127';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const nx = searchParams.get('nx') ?? DEFAULT_NX;
-    const ny = searchParams.get('ny') ?? DEFAULT_NY;
+    const nx = searchParams.get('nx') ?? DEFAULT_WEATHER_POSITION.latitude;
+    const ny = searchParams.get('ny') ?? DEFAULT_WEATHER_POSITION.longitude;
 
     const params = new URLSearchParams({
       serviceKey: process.env.WEATHER_API_KEY || '',
