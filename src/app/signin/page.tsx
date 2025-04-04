@@ -1,6 +1,5 @@
 'use client';
 import { handleGoogleSignIn, handleKakaoSignIn, handleNaverSignIn } from '@/utils/supabase/singIn';
-import React from 'react';
 
 const SigInPage = () => {
   return (
