@@ -4,34 +4,13 @@ import { WEATHER_API_CONFIG } from '@/constants/weatherApi.config';
 
 export const fetchWeather = async (): Promise<WeatherResponse> => {
   try {
-    const requiredParams = {
-      base_date: '20250404',
-      base_time: '0100',
-      nx: '55',
-      ny: '127',
-    };
-
-    const params = new URLSearchParams({
-      serviceKey: process.env.NEXT_PUBLIC_WEATHER_API_KEY || '',
-      ...WEATHER_API_CONFIG.COMMON_PARAMS,
-      ...requiredParams,
-    });
-
-    const response = await fetch(
-      `${WEATHER_API_CONFIG.BASE_URL}${WEATHER_API_CONFIG.ENDPOINTS.ULTRA_SHORT_FORECAST}?${params}`,
-    );
+    const response = await fetch(`/api/weather?nx=${55}&ny=${127}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    if (data.response.header.resultCode !== '00') {
-      throw new Error(data.response.header.resultMsg);
-    }
-
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('날씨 데이터를 가져오는데 실패했습니다:', error);
     throw error;
