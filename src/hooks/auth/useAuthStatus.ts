@@ -21,9 +21,9 @@ export const useAuthStatus = () => {
   useEffect(() => {
     const { data: authListener } = client.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_IN') {
-        queryClient.setQueryData(['authStatus'], true);
+        queryClient.setQueryData(QUERY_KEYS.authStatus(), true);
       } else if (event === 'SIGNED_OUT') {
-        queryClient.setQueryData(['authStatus'], false);
+        queryClient.setQueryData(QUERY_KEYS.authStatus(), false);
       }
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.authStatus() });
     });
