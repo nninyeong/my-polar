@@ -42,7 +42,7 @@ export async function GET(request: Request) {
 
   if (user) {
     const provider = user.app_metadata?.provider;
-    if (provider === 'kakao' || provider === 'google') {
+    if (provider === 'kakao') {
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/?social=${provider}`);
     }
   } else {

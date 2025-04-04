@@ -1,6 +1,6 @@
 'use client';
 
-import { handleSocialSignIn } from '@/utils/supabase/singIn';
+import { handleKakaoSignIn } from '@/utils/supabase/singIn';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -9,8 +9,10 @@ export default function Home() {
   const social = searchParams.get('social');
 
   useEffect(() => {
-    handleSocialSignIn(social);
-  }, [social]);
+    if (social === 'kakao') {
+      handleKakaoSignIn();
+    }
+  }, []);
 
   return <div>홈</div>;
 }

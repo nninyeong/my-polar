@@ -37,14 +37,3 @@ export const handleNaverSignIn = () => {
 
   window.location.href = authUrl;
 };
-
-export const handleSocialSignIn = (social: string | null) => {
-  switch (social) {
-    case 'kakao':
-      return handleKakaoSignIn();
-    case 'google':
-      return handleGoogleSignIn();
-    default:
-      return;
-  }
-};
