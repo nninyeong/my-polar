@@ -26,18 +26,20 @@ export async function GET(request: Request) {
     );
 
     if (!response.ok) {
-      throw new Error(`날씨 API 응답 에러: ${response.statusText}`);
+      console.error(`날씨 API 응답 에러: ${response.statusText}`);
+      return NextResponse.json({ message: `날씨 API 응답 에러: ${response.statusText}` });
     }
 
     const data = await response.json();
 
     if (data.response.header.resultCode !== '00') {
-      throw new Error(`날씨 API 요청 실패: ${data.response.header.resultMsg}`);
+      console.error(`날씨 API 요청 실패: ${data.response.header.resultMsg}`);
+      return NextResponse.json({ message: `날씨 API 요청 실패: ${data.response.header.resultMsg}` });
     }
 
     return NextResponse.json(data);
   } catch (error) {
     console.error('날씨 API 요청 실패: ', error);
-    return NextResponse.json({ error: `날씨 API 요청 실패: ${error}` }, { status: 500 });
+    return NextResponse.json({ message: `날씨 API 요청 실패: ${error}` });
   }
 }

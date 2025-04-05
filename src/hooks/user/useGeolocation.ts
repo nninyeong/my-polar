@@ -1,16 +1,17 @@
 'use client';
 
+import { CustomError } from '@/types/error.types';
 import { Position } from '@/types/position.types';
 import { useEffect, useState } from 'react';
 
 export const useGeolocation = () => {
   const [position, setPosition] = useState<Position | null>(null);
-  const [error, setError] = useState<{ isSuccess: boolean; message: string } | null>(null);
+  const [error, setError] = useState<CustomError | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      setError({ isSuccess: false, message: '브라우저가 위치 정보를 지원하지 않습니다.' });
+      setError({ message: '브라우저가 위치 정보를 지원하지 않습니다.' });
       setIsLoading(false);
       return;
     }
@@ -32,7 +33,7 @@ export const useGeolocation = () => {
 
     const error = (error: GeolocationPositionError) => {
       console.error('위치 정보 에러:', error);
-      setError({ isSuccess: false, message: error.message });
+      setError({ message: error.message });
       setIsLoading(false);
     };
 

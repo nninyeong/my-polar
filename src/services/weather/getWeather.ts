@@ -19,9 +19,9 @@ export const fetchWeather = async (position: Position | null): Promise<WeatherRe
     const response = await fetch(`/api/weather?nx=${nx}&ny=${ny}`);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      console.error('날씨데이터 응답 실패: ', response.status);
+      throw new Error(`날씨데이터 응답 실패: ${response.status}`);
     }
-
     return await response.json();
   } catch (error) {
     console.error('날씨 데이터를 가져오는데 실패했습니다:', error);
