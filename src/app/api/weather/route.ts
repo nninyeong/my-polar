@@ -12,8 +12,6 @@ export async function GET(request: Request) {
     const baseDate = convertDateForUltraShortForecast(date);
     const baseTime = convertTimeForUltraShortForecast(date);
 
-    console.log(baseDate, baseTime);
-
     const params = new URLSearchParams({
       serviceKey: process.env.WEATHER_API_KEY || '',
       ...WEATHER_API_CONFIG.COMMON_PARAMS,
