@@ -30,10 +30,7 @@ export const fetchWeather = async (position: Position | null): Promise<WeatherRe
 
 // TODO: 기획 확정 후 날씨 판별 로직 구현
 export const determineWeatherState = (data: WeatherResponse): WeatherState => {
-  const targetTime = '0200';
-
-  // SKY 카테고리이고 fcstTime이 0200인 요소 찾기
-  const skyData = data.response.body.items.item.find((item) => item.category === 'SKY' && item.fcstTime === targetTime);
+  const skyData = data.response.body.items.item.find((item) => item.category === 'SKY');
 
   if (!skyData) {
     throw new Error('날씨 데이터를 찾을 수 없습니다.');

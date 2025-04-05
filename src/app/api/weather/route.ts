@@ -1,4 +1,5 @@
 import { DEFAULT_WEATHER_POSITION, WEATHER_API_CONFIG } from '@/constants/weatherApi.config';
+import { convertDateForUltraShortForecast, convertTimeForUltraShortForecast } from '@/utils/convertDate';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -7,11 +8,17 @@ export async function GET(request: Request) {
     const nx = searchParams.get('nx') ?? DEFAULT_WEATHER_POSITION.latitude;
     const ny = searchParams.get('ny') ?? DEFAULT_WEATHER_POSITION.longitude;
 
+    const date = new Date();
+    const baseDate = convertDateForUltraShortForecast(date);
+    const baseTime = convertTimeForUltraShortForecast(date);
+
+    console.log(baseDate, baseTime);
+
     const params = new URLSearchParams({
       serviceKey: process.env.WEATHER_API_KEY || '',
       ...WEATHER_API_CONFIG.COMMON_PARAMS,
-      base_date: '20250404',
-      base_time: '0100',
+      base_date: baseDate,
+      base_time: baseTime,
       nx: nx.toString(),
       ny: ny.toString(),
     });
