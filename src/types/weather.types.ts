@@ -24,5 +24,9 @@ export type WeatherResponse = {
   };
 };
 
-// TODO: 날씨 상태 기획 확정시 수정
 export type WeatherState = 'sunny' | 'cloudy' | 'gloomy' | 'rainy' | 'snowy';
+
+export type WeatherRule = {
+  condition: (rainValue: number, skyValue: number) => boolean;
+  state: WeatherState;
+};

@@ -1,4 +1,5 @@
 import { DEFAULT_WEATHER_POSITION } from '@/constants/weatherApi.config';
+import { WEATHER_RULES } from '@/constants/weatherRules';
 import { Position } from '@/types/position.types';
 import { WeatherState } from '@/types/weather.types';
 import { WeatherResponse } from '@/types/weather.types';
@@ -28,7 +29,6 @@ export const fetchWeather = async (position: Position | null): Promise<WeatherRe
   }
 };
 
-// TODO: 기획 확정 후 날씨 판별 로직 구현
 export const determineWeatherState = (data: WeatherResponse): WeatherState => {
   const skyData = data.response.body.items.item.find((item) => item.category === 'SKY');
   const rainData = data.response.body.items.item.find((item) => item.category === 'PTY');
@@ -38,10 +38,6 @@ export const determineWeatherState = (data: WeatherResponse): WeatherState => {
   const skyValue = parseInt(skyData.fcstValue);
   const rainValue = parseInt(rainData.fcstValue);
 
-  if (rainValue === 3 || rainValue === 7) return 'snowy';
-  else if (rainValue !== 0 && rainValue !== 3 && rainValue !== 7) return 'rainy';
-  else if (rainValue === 0 && skyValue < 6) return 'sunny';
-  else if (rainValue === 0 && skyValue >= 6 && skyValue < 9) return 'cloudy';
-  else if (rainValue === 0 && skyValue >= 9) return 'gloomy';
-  else return 'sunny';
+  const matchedWeatherState = WEATHER_RULES.find((rule) => rule.condition(rainValue, skyValue));
+  return matchedWeatherState?.state ?? 'sunny';
 };
