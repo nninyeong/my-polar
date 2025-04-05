@@ -31,20 +31,17 @@ export const fetchWeather = async (position: Position | null): Promise<WeatherRe
 // TODO: 기획 확정 후 날씨 판별 로직 구현
 export const determineWeatherState = (data: WeatherResponse): WeatherState => {
   const skyData = data.response.body.items.item.find((item) => item.category === 'SKY');
+  const rainData = data.response.body.items.item.find((item) => item.category === 'PTY');
 
-  if (!skyData) {
-    throw new Error('날씨 데이터를 찾을 수 없습니다.');
-  }
+  if (!skyData || !rainData) return 'sunny';
 
   const skyValue = parseInt(skyData.fcstValue);
+  const rainValue = parseInt(rainData.fcstValue);
 
-  if (skyValue >= 0 && skyValue <= 5) {
-    return 'sunny';
-  } else if (skyValue >= 6 && skyValue <= 8) {
-    return 'cloudy';
-  } else if (skyValue >= 9 && skyValue <= 10) {
-    return 'rainy';
-  } else {
-    return 'sunny';
-  }
+  if (rainValue === 3 || rainValue === 7) return 'snowy';
+  else if (rainValue !== 0 && rainValue !== 3 && rainValue !== 7) return 'rainy';
+  else if (rainValue === 0 && skyValue < 6) return 'sunny';
+  else if (rainValue === 0 && skyValue >= 6 && skyValue < 9) return 'cloudy';
+  else if (rainValue === 0 && skyValue >= 9) return 'gloomy';
+  else return 'sunny';
 };
