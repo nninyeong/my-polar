@@ -25,4 +25,4 @@ export type WeatherResponse = {
 };
 
 // TODO: 날씨 상태 기획 확정시 수정
-export type WeatherState = 'sunny' | 'cloudy' | 'rainy' | 'snowy';
+export type WeatherState = 'sunny' | 'cloudy' | 'gloomy' | 'rainy' | 'snowy';
